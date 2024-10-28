@@ -1,5 +1,11 @@
+import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../../../core/constants/colors.dart';
+import '../../../core/constants/strings.dart';
+import '../../../core/core_widgets/custom_text.dart';
+import '../../../core/styles/my_text_style.dart';
 import '../../../core/theme/theme_provider.dart';
 
 class MainScreen extends StatelessWidget {
@@ -7,6 +13,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme=Theme.of(context).colorScheme;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -29,7 +36,48 @@ class MainScreen extends StatelessWidget {
           )
         ],
       ),
-      body: ,
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 13, right: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                        text: DateFormat.yMMMMd().format(DateTime.now()),
+                        style: MyTextStyle.latoSize30WeightBold.copyWith(
+                            fontSize: 24, color:Colors.grey)),
+                    const CustomText(
+                        text: MyStrings.today,
+                        style: MyTextStyle.latoSize30WeightBold),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, top: 8),
+            child: DatePicker(
+              DateTime.now(),
+              initialSelectedDate: DateTime.now(),
+              width: 80,
+              height: 100,
+              selectionColor: MyColors.purpleColor,
+              selectedTextColor: MyColors.whiteColor,
+              dateTextStyle: MyTextStyle.latoSize30WeightBold.copyWith(
+                  fontSize: 18, color: MyColors.grayColor),
+              dayTextStyle: MyTextStyle.latoSize18WeightBoldGrey,
+              monthTextStyle: MyTextStyle.latoSize18WeightBoldGrey,
+              onDateChange: (date) {
+
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
