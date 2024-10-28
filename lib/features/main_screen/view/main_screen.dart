@@ -6,8 +6,10 @@ import 'package:to_do_app/features/main_screen/view/widgets/add_task_button.dart
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../../core/core_widgets/custom_text.dart';
+import '../../../core/core_widgets/custom_text_form.dart';
 import '../../../core/styles/my_text_style.dart';
 import '../../../core/theme/theme_provider.dart';
+import '../view_model/task_provider.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -15,11 +17,45 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context).colorScheme;
+    var provider = Provider.of<TaskProvider>(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: MyColors.purpleColor,
-        tooltip: 'Increment',
-        onPressed: () {},
+        tooltip: 'Add New Task',
+        onPressed: () {
+          showModalBottomSheet(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+            ),
+            backgroundColor: Colors.white,
+            context: context,
+            builder: (BuildContext context) {
+              return Column(
+                children: [
+                  CustomTextForm(
+                    title: 'Task',
+                    textInputType: TextInputType.text,
+                    textEditingController: provider.task,
+                  ),
+                  CustomTextForm(
+                    title: 'Description of Task',
+                    textInputType: TextInputType.text,
+                    textEditingController: provider.description,
+                  ),
+                  CustomTextForm(
+                    title: 'Start Time',
+                    textInputType: TextInputType.datetime,
+                    textEditingController: provider.time,
+                    suffixIcon: IconButton(onPressed: (){
+                      provider.getTimeFromUser(context);
+                    }, icon: const Icon(Icons.access_time),)
+                  ),
+
+                ],
+              );
+            },
+          );
+        },
         child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -81,11 +117,6 @@ class MainScreen extends StatelessWidget {
               onDateChange: (date) {},
             ),
           ),
-          ListView.builder(
-
-              itemBuilder: (context, index) {
-            return null;
-          })
         ],
       ),
     );
