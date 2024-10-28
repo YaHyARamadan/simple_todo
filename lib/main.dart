@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/core/theme/theme.dart';
+import 'package:to_do_app/core/theme/theme_provider.dart';
 import 'package:to_do_app/features/main_screen/view/main_screen.dart';
+
+import 'core/routes/router.dart';
+import 'core/routes/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,18 +14,22 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            theme: themeProvider.themeData,
+            initialRoute: AppRoutes.mainScreen,
+            onGenerateRoute: onGenerate,
+          );
+        },
       ),
-      home: const MainScreen(),
     );
   }
 }
-
-

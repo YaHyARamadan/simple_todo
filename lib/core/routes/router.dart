@@ -8,7 +8,7 @@ Route<dynamic> onGenerate(RouteSettings routeSettings) {
   switch (routeSettings.name) {
     case AppRoutes.mainScreen:
       return MaterialPageRoute(
-          builder: (context) =>  MainScreen(), settings: routeSettings);
+          builder: (context) =>  const MainScreen(), settings: routeSettings);
 
     default:
       return MaterialPageRoute(
