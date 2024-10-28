@@ -52,15 +52,16 @@ class _CustomTextFormState extends State<CustomTextForm> {
               filled: true,
               fillColor: MyColors.whiteColor,
               hintText:  widget.hint  ?? 'Enter Your ${widget.title} Here',
+              hintStyle: MyTextStyle.latoSize18WeightBoldGrey,
               border:  const OutlineInputBorder(
                 borderSide: BorderSide(width: 1,color: MyColors.grayColor),
                 borderRadius: BorderRadius.all(
                   Radius.circular(8.0),
                 ),
               ),
-              focusedBorder:  OutlineInputBorder(
+              focusedBorder:  const OutlineInputBorder(
                 borderSide: BorderSide(width: 2,color: MyColors.blackColor),
-                borderRadius: const BorderRadius.all(
+                borderRadius: BorderRadius.all(
                   Radius.circular(8.0),
                 ),
               )

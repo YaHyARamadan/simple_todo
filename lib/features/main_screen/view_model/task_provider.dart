@@ -21,12 +21,10 @@ class TaskProvider extends ChangeNotifier {
     }
   }
 
-  void addTask(
-      {required String task,
-      required String description,
-      required String time}) {
-    final newTask = Todo(task: task, description: task, time: task);
+  void addTask({required String task, required String description, required String time}) {
+    final newTask = Todo(task: task, description: description, time: time);
     _todoBox.add(newTask.toMap());
+    clearControllers();
     notifyListeners();
   }
 
@@ -36,17 +34,28 @@ class TaskProvider extends ChangeNotifier {
         .toList();
   }
 
-  void updateTask(
-      {required String task,
-      required String description,
-      required String time,
-      index}) {
-    final updatedTask = Todo(task: task, description: task, time: task);
+  void updateTask({required String task, required String description, required String time, required int index}) {
+    final updatedTask = Todo(task: task, description: description, time: time);
     _todoBox.putAt(index, updatedTask.toMap());
     notifyListeners();
   }
-  void deleteTask(int index) {
+
+   deleteTask(int index) {
     _todoBox.deleteAt(index);
     notifyListeners();
+  }
+
+  void clearControllers() {
+    task.clear();
+    description.clear();
+    time.clear();
+  }
+
+  @override
+  void dispose() {
+    task.dispose();
+    description.dispose();
+    time.dispose();
+    super.dispose();
   }
 }

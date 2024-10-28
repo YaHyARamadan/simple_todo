@@ -2,7 +2,7 @@ import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app/features/main_screen/view/widgets/add_task_button.dart';
+import 'package:to_do_app/features/main_screen/view/widgets/todo_body.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../../core/core_widgets/custom_text.dart';
@@ -18,47 +18,97 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context).colorScheme;
     var provider = Provider.of<TaskProvider>(context);
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: MyColors.purpleColor,
+        backgroundColor: theme.secondary,
         tooltip: 'Add New Task',
         onPressed: () {
           showModalBottomSheet(
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
             ),
-            backgroundColor: Colors.white,
+            backgroundColor: theme.surface,
             context: context,
+            isScrollControlled: true,
             builder: (BuildContext context) {
-              return Column(
-                children: [
-                  CustomTextForm(
-                    title: 'Task',
-                    textInputType: TextInputType.text,
-                    textEditingController: provider.task,
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                    left: 10,
+                    right: 10,
                   ),
-                  CustomTextForm(
-                    title: 'Description of Task',
-                    textInputType: TextInputType.text,
-                    textEditingController: provider.description,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 10),
+                      const CustomText(
+                          text: 'Add Task',
+                          style: MyTextStyle.latoSize30WeightBold),
+                      const SizedBox(height: 10),
+                      CustomTextForm(
+                        title: 'Task',
+                        textInputType: TextInputType.text,
+                        textEditingController: provider.task,
+                      ),
+                      CustomTextForm(
+                        title: 'Description of Task',
+                        textInputType: TextInputType.text,
+                        textEditingController: provider.description,
+                      ),
+                      CustomTextForm(
+                        title: 'Start Time',
+                        textInputType: TextInputType.datetime,
+                        textEditingController: provider.time,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            provider.getTimeFromUser(context);
+                          },
+                          icon: const Icon(Icons.access_time),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: CustomText(
+                              text: 'Cancel',
+                              style: MyTextStyle.latoSize30WeightBold.copyWith(
+                                  color: theme.primary, fontSize: 19),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              provider.addTask(
+                                task: provider.task.text,
+                                description: provider.description.text,
+                                time: provider.time.text,
+                              );
+                              Navigator.pop(context);
+                            },
+                            child: CustomText(
+                              text: 'Add Task',
+                              style: MyTextStyle.latoSize30WeightBold.copyWith(
+                                  color: theme.primary, fontSize: 19),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  CustomTextForm(
-                    title: 'Start Time',
-                    textInputType: TextInputType.datetime,
-                    textEditingController: provider.time,
-                    suffixIcon: IconButton(onPressed: (){
-                      provider.getTimeFromUser(context);
-                    }, icon: const Icon(Icons.access_time),)
-                  ),
-
-                ],
+                ),
               );
             },
           );
         },
         child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: theme.background,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -108,15 +158,32 @@ class MainScreen extends StatelessWidget {
               initialSelectedDate: DateTime.now(),
               width: 80,
               height: 100,
-              selectionColor: MyColors.purpleColor,
-              selectedTextColor: MyColors.whiteColor,
+              selectionColor: theme.secondary, // Selection color
+              selectedTextColor: theme.onSecondary, // Text color when selected
               dateTextStyle: MyTextStyle.latoSize30WeightBold
-                  .copyWith(fontSize: 18, color: MyColors.grayColor),
+                  .copyWith(fontSize: 18, color: theme.primary),
               dayTextStyle: MyTextStyle.latoSize18WeightBoldGrey,
               monthTextStyle: MyTextStyle.latoSize18WeightBoldGrey,
               onDateChange: (date) {},
             ),
           ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+              child: ListView.builder(
+                  itemCount: provider.getTasks.length,
+                  itemBuilder: (context, index) {
+                    final todo = provider.getTasks[index];
+                    return ToDoList(
+                      taskName: todo.task,
+                      taskSubtitle: todo.description,
+                      time: todo.time,
+                      deleteTask: (context) => provider.deleteTask(index),
+                    );
+                  }),
+            ),
+          )
         ],
       ),
     );

@@ -10,6 +10,7 @@ import 'core/constants/strings.dart';
 import 'core/routes/router.dart';
 import 'core/routes/routes.dart';
 import 'features/main_screen/view_model/task_provider.dart';
+import 'features/main_screen/view_model/ui_logic.dart';
 
 void main() async{
   await Hive.initFlutter();

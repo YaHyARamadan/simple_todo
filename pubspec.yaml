@@ -36,6 +36,8 @@ dependencies:
   provider:
   intl:
   date_picker_timeline:
+  flutter_slidable:
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
