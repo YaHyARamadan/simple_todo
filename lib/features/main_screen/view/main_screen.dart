@@ -2,6 +2,7 @@ import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_app/features/main_screen/view/widgets/add_task_button.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/strings.dart';
 import '../../../core/core_widgets/custom_text.dart';
@@ -13,8 +14,14 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme=Theme.of(context).colorScheme;
+    var theme = Theme.of(context).colorScheme;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: MyColors.purpleColor,
+        tooltip: 'Increment',
+        onPressed: () {},
+        child: const Icon(Icons.add, color: Colors.white, size: 28),
+      ),
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         leading: IconButton(
@@ -48,8 +55,8 @@ class MainScreen extends StatelessWidget {
                   children: [
                     CustomText(
                         text: DateFormat.yMMMMd().format(DateTime.now()),
-                        style: MyTextStyle.latoSize30WeightBold.copyWith(
-                            fontSize: 24, color:Colors.grey)),
+                        style: MyTextStyle.latoSize30WeightBold
+                            .copyWith(fontSize: 24, color: Colors.grey)),
                     const CustomText(
                         text: MyStrings.today,
                         style: MyTextStyle.latoSize30WeightBold),
@@ -67,15 +74,18 @@ class MainScreen extends StatelessWidget {
               height: 100,
               selectionColor: MyColors.purpleColor,
               selectedTextColor: MyColors.whiteColor,
-              dateTextStyle: MyTextStyle.latoSize30WeightBold.copyWith(
-                  fontSize: 18, color: MyColors.grayColor),
+              dateTextStyle: MyTextStyle.latoSize30WeightBold
+                  .copyWith(fontSize: 18, color: MyColors.grayColor),
               dayTextStyle: MyTextStyle.latoSize18WeightBoldGrey,
               monthTextStyle: MyTextStyle.latoSize18WeightBoldGrey,
-              onDateChange: (date) {
-
-              },
+              onDateChange: (date) {},
             ),
           ),
+          ListView.builder(
+
+              itemBuilder: (context, index) {
+            return null;
+          })
         ],
       ),
     );
