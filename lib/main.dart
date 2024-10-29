@@ -2,15 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app/core/theme/theme.dart';
 import 'package:to_do_app/core/theme/theme_provider.dart';
-import 'package:to_do_app/features/main_screen/view/main_screen.dart';
-
-import 'core/constants/strings.dart';
 import 'core/routes/router.dart';
 import 'core/routes/routes.dart';
 import 'features/main_screen/view_model/task_provider.dart';
-import 'features/main_screen/view_model/ui_logic.dart';
 
 void main() async{
   await Hive.initFlutter();
